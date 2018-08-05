@@ -4,7 +4,6 @@ import android.location.Location
 import android.util.Log
 import com.coffiend.terryschmidt.coffiend.controllers.MarkerController
 import com.coffiend.terryschmidt.coffiend.model.PlaceListWrapper
-import com.coffiend.terryschmidt.coffiend.views.CoffiendActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -15,15 +14,15 @@ class ApiCall(val markerController: MarkerController) {
         val call = service?.getCoffeeShops(location.latitude.toString() + "," + location.longitude.toString(), "distance", "cafe", "coffee", apiKey)
         call?.enqueue(object : Callback<PlaceListWrapper> {
             override fun onFailure(call: Call<PlaceListWrapper>?, t: Throwable?) {
-                Log.e(CoffiendActivity.TAG, "onFailure: " + t?.message)
+                Log.e(TAG, "onFailure: " + t?.message)
             }
 
             override fun onResponse(call: Call<PlaceListWrapper>?, response: Response<PlaceListWrapper>?) {
-                Log.d(CoffiendActivity.TAG, "onResponse: " + response?.isSuccessful)
-                if (response == null) { Log.e(CoffiendActivity.TAG, "null response") }
-                if (response!!.body() == null) { Log.e(CoffiendActivity.TAG, "null body") }
-                if (response.body()!!.placeList == null) { Log.e(CoffiendActivity.TAG, "null placeList") }
-                Log.d(CoffiendActivity.TAG, "PlaceList size: " + response.body()!!.placeList.size)
+                Log.d(TAG, "onResponse: " + response?.isSuccessful)
+                if (response == null) { Log.e(TAG, "null response") }
+                if (response!!.body() == null) { Log.e(TAG, "null body") }
+                if (response.body()!!.placeList == null) { Log.e(TAG, "null placeList") }
+                Log.d(TAG, "PlaceList size: " + response.body()!!.placeList.size)
                 val placeList = response.body()?.placeList
                 if (placeList != null) {
                     for (place in placeList) {
@@ -33,12 +32,16 @@ class ApiCall(val markerController: MarkerController) {
                         try {
                             isOpen = place.opening_hours.asJsonObject.get("open_now").asBoolean
                         } catch (e: Exception) {
-                            Log.e(CoffiendActivity.TAG, "Caught exception: " + e.message)
+                            Log.e(TAG, "Caught exception: " + e.message)
                         }
                         markerController.addCoffeeShopLocationMarker(lat, lon, isOpen, place.name)
                     }
                 }
             }
         })
+    }
+
+    companion object {
+        const val TAG = "ApiCall"
     }
 }
