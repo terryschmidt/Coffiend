@@ -31,7 +31,6 @@ class CoffiendActivity : AppCompatActivity(), OnMapReadyCallback {
     private var locationListener: LocationListener? = null
     private var locationManager: LocationManager? = null
     private lateinit var alertDialog: AlertDialog
-    private var receivedFirstLocation: Boolean = false
     private lateinit var markerController: MarkerController
     private lateinit var apiCall: ApiCall
 
@@ -57,22 +56,14 @@ class CoffiendActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onResume() {
         super.onResume()
-        if (!receivedFirstLocation) {
-            requestLocationUpdates(0L, 0f)
-        } else {
-            requestLocationUpdates(1 * 60 * 1000, 800f)
-        }
+            requestLocationUpdates(0, 400f)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
             requestFineLocation -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    if (!receivedFirstLocation) {
-                        requestLocationUpdates(0L, 0f)
-                    } else {
-                        requestLocationUpdates(1 * 60 * 1000, 800f)
-                    }
+                    requestLocationUpdates(0, 400f)
                 }
                 return
             }
@@ -126,10 +117,6 @@ class CoffiendActivity : AppCompatActivity(), OnMapReadyCallback {
         if (locationListener == null) {
             locationListener = object : LocationListener {
                 override fun onLocationChanged(location: Location) { // Called when a new location is found by the network location provider.
-                    if (!receivedFirstLocation) {
-                        receivedFirstLocation = true
-                        clearOriginalListener()
-                    }
                     markerController.removePreviousCoffeeShopMarkers()
                     markerController.removePreviousUserLocationMarker()
                     showNearbyCoffeeShops(location)
@@ -139,11 +126,6 @@ class CoffiendActivity : AppCompatActivity(), OnMapReadyCallback {
                 override fun onProviderDisabled(provider: String) {}
             }
         }
-    }
-
-    private fun clearOriginalListener() {
-        locationManager?.removeUpdates(locationListener)
-        requestLocationUpdates(1*60*100, 800f)
     }
 
     private fun createLocationManager() {
