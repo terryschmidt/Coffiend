@@ -9,4 +9,17 @@ An Android application which utilizes Kotlin, Retrofit, Gson, Google Maps and Pl
 I ran through Google's query limit pretty fast on the API and got locked out from doing more testing for a day or two as a result.
 Hopefully I got enough testing in beforehand :)
 
+If you run the app and only see your location (and not surrounding coffee shops), it's most likely because my (free version) API key is over it's query limit.
+
+In that case, the API will return something like this:
+
+{
+"error_message": "You have exceeded your daily request quota for this API.",
+"html_attributions": [],
+"results": [],
+"status": "OVER_QUERY_LIMIT"
+}
+
+If I had more time to dedicate, I could handle this scenario and show a toast to the user that, sorry, I can't get any data right now because I haven't paid Google for more service.  :)
+
 I structured the project in a MVC fashion, with modules for View, Controllers, and Models.  There is also a networking module which makes use of third party lib Retrofit and Gson.
