@@ -43,7 +43,7 @@ class CoffiendActivity : AppCompatActivity(), OnMapReadyCallback {
         alertDialog = getAlertDialog()
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-        if (!(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestFineLocationPermission()
         }
     }
@@ -100,7 +100,7 @@ class CoffiendActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun checkIfLocationServicesEnabled(): Boolean {
-        val locationSetting = Settings.Secure.getInt(getContentResolver(), Settings.Secure.LOCATION_MODE)
+        val locationSetting = Settings.Secure.getInt(contentResolver, Settings.Secure.LOCATION_MODE)
         if (locationSetting == 0) {
             return false
         }
