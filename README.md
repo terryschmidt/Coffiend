@@ -1,6 +1,8 @@
 # Coffiend
 An Android application which utilizes Kotlin, Retrofit, Gson, Google Maps and Places API to show the nearest coffee shops
 
+The name is a portmanteau of the two words "Coffee" and "Fiend"
+
 1.  Clone repo
 2.  Open in Android Studio
 3.  It will use the latest Kotlin version, and some other libs like Retrofit, Mockito
