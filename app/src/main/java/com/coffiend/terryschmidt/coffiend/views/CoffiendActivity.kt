@@ -56,7 +56,7 @@ class CoffiendActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onResume() {
         super.onResume()
-            requestLocationUpdates(0, 400f)
+        requestLocationUpdates(0, 400f)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
