@@ -37,7 +37,7 @@ class CoffiendActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coffiend)
-        markerController = MarkerController(WeakReference(this))  // use dependency injection TODO
+        markerController = MarkerController(WeakReference(this))  // use dependency injection
         apiCall = ApiCall(markerController)
         alertDialog = getAlertDialog()
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
@@ -81,7 +81,7 @@ class CoffiendActivity : AppCompatActivity(), OnMapReadyCallback {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             if (checkIfLocationServicesEnabled()) {
                 locationManager?.removeUpdates(locationListener)
-                locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, minTime, minDistance, locationListener)
+                locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime, minDistance, locationListener)
             } else {
                 if (!alertDialog.isShowing) {
                     alertDialog.show()
